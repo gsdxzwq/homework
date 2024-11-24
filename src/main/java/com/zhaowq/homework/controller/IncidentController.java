@@ -38,10 +38,10 @@ public class IncidentController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Incident> updateIncident(@RequestBody Incident incident) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Incident> updateIncident(@PathVariable Long id, @RequestBody Incident incident) {
         try {
-            Incident updatedIncident = incidentService.updateIncident(incident);
+            Incident updatedIncident = incidentService.updateIncident(id, incident);
             return new ResponseEntity<>(updatedIncident, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

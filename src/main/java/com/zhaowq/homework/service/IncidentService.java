@@ -10,7 +10,7 @@ public interface IncidentService {
 
     void deleteIncident(Long id);
 
-    Incident updateIncident(Incident incident);
+    Incident updateIncident(Long id, Incident incident);
 
     List<Incident> listAllIncidents();
 }

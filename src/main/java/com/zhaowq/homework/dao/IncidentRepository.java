@@ -8,9 +8,9 @@ import java.util.*;
 @Component
 public class IncidentRepository {
     /**
-     * 由于数据保存在内存中，这里借助LinkedHashMap
+     * 由于要求数据保存在内存中，这里借助LinkedHashMap
      */
-    private static Map<Long, Incident> incidentMap = new LinkedHashMap<>();
+    private static final Map<Long, Incident> incidentMap = new LinkedHashMap<>();
     public Incident save(Incident incident) {
         incidentMap.put(incident.getId(), incident);
         return incident;

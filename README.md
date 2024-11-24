@@ -11,7 +11,13 @@
 
 ## 如何运行
 克隆项目到本地后，进入项目根目录，使用 Maven 命令mvn clean install进行项目打包，会在target目录下生成可执行的 JAR 文件。
-可以直接运行java -jar target/*.jar启动应用程序，默认会在8080端口启动，也可以结合 Docker 容器化运行（参考下方 Docker 相关说明）。
+可以直接运行java -jar target/*.jar启动应用程序，默认会在8080端口启动，或者通过Docker来运行（参考项目根目录下的Dockerfile构建镜像并运行容器）。
+
+在项目根目录执行：
+```
+docker build -t incident-app .
+docker run -p 8080:8080 incident-app
+```
 
 ## API说明
 ### 创建事件
@@ -24,7 +30,7 @@
 - 方法：DELETE
 - 响应：成功删除返回200 OK状态码，若事件不存在返回404 Not Found状态码。
 ### 修改事件
-- URL：/api/incident
+- URL：/api/incident/{id}
 - 方法：PUT
 - 请求体：包含完整事件信息（包含 ID 以及要修改的其他属性）的JSON数据
 - 响应：成功修改返回200 OK状态码以及修改后的事件信息，若事件不存在返回404 Not Found状态码。

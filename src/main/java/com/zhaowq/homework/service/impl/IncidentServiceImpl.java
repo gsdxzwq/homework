@@ -3,6 +3,7 @@ package com.zhaowq.homework.service.impl;
 import com.zhaowq.homework.dao.IncidentRepository;
 import com.zhaowq.homework.domain.Incident;
 import com.zhaowq.homework.service.IncidentService;
+import com.zhaowq.homework.utils.TimeUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,27 +19,29 @@ public class IncidentServiceImpl implements IncidentService {
 
     @Override
     public Incident createIncident(Incident incident) {
-        if (incidentRepository.findById(incident.getId()).isPresent()){
-            throw new RuntimeException("保存的事件已存在");
+        if (incidentRepository.findById(incident.getId()).isPresent()) {
+            throw new RuntimeException("The saved incident already exists.");
         }
+        incident.setCreateTime(TimeUtils.getCurrentTime());
         return incidentRepository.save(incident);
     }
 
     @Override
     public void deleteIncident(Long id) {
-        if (incidentRepository.findById(id).isEmpty()){
-            throw new RuntimeException("删除的时间不存在");
+        if (incidentRepository.findById(id).isEmpty()) {
+            throw new RuntimeException("The deleted incident does not exist.");
         }
         incidentRepository.deleteById(id);
     }
 
     @Override
-    public Incident updateIncident(Incident incident) {
-        Optional<Incident> existingIncidentOptional = incidentRepository.findById(incident.getId());
-        if (existingIncidentOptional.isPresent()) {
-            return incidentRepository.save(incident);
+    public Incident updateIncident(Long id, Incident incident) {
+        Optional<Incident> existingIncidentOptional = incidentRepository.findById(id);
+        if (existingIncidentOptional.isEmpty()) {
+            throw new RuntimeException("The incident to be updated does not exist");
         }
-        throw new RuntimeException("要修改的事件不存在");
+        return incidentRepository.save(incident);
+
     }
 
     @Override
